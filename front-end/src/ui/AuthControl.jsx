@@ -21,14 +21,28 @@ export default function AuthControl() {
 
   async function handleLogoutButtonClick() {
     if(await askForConfirmation('Deseja realmente sair?')) {
-      // Apaga o token do localStorage
-      window.localStorage.removeItem(import.meta.env.VITE_AUTH_TOKEN_NAME)
+      showWaiting(true)
 
-      // Remove as informações do usuário autenticado
-      setAuthUser(null)
+      try { // faz uma requisição ao backend solicitando a exclusão do cookie com o token
+        // O backend irá apagar o cookie com o token
+        await myfetch('/users/logout', {
+          method: 'POST',
+          credentials: 'include'
+        })
+        // Limpa o cookie com o token no front-end
+        setAuthUser(null)
 
-      // Redireciona para a página de login
-      navigate('/login')
+        notify('Logout realizado com sucesso!')
+        // Redireciona para a página de login 
+        navigate('/login')
+      }
+      catch(error) {
+        console.error(error)
+        notify('Erro ao realizar logout!', 'error')
+      }
+      finally {
+        showWaiting(false)
+      }
     }
   }
 

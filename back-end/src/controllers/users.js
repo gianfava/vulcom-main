@@ -184,6 +184,12 @@ controller.login = async function(req, res) {
     res.status(500).end()
   }
 }
+controller.logout = function(req,res){
+  //apaga no front o cookie q armazena o token
+  res.clearCookie(process.env.AUTH_COOKIE_NAME)
+  //hhtp204:no content
+  res.status(204).end()
+}
 
 controller.me = function(req, res) {
   // Retorna as informações do usuário autenticado
