@@ -13,7 +13,9 @@ import cors from 'cors'
 // requisições vindas das origens indicadas pela
 // variável de ambiente ALLOWED_ORIGINS
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS.split(',')
+  origin: process.env.ALLOWED_ORIGINS.split(','),
+  // Envia de fato quaisquer cookies gerados para o front-end
+  credentials: true
 }))
 
 app.use(logger('dev'))
