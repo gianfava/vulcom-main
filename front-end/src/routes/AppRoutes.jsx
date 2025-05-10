@@ -15,12 +15,15 @@ import UserList from '../pages/user/UserList'
 import UserForm from '../pages/user/UserForm'
 
 import Login from '../pages/Login'
+import BruteForce from '../pages/BruteForce'
 
 export default function AppRoutes() {
   return <Routes>
     <Route path="/" element={ <Homepage /> } />
 
     <Route path="/login" element={ <Login /> } />
+
+
 
     <Route path="/cars" element={ <AuthGuard> <CarList /> </AuthGuard> } />
     <Route path="/cars/new" element={ <AuthGuard> <CarForm /> </AuthGuard>  } />
@@ -34,6 +37,8 @@ export default function AppRoutes() {
     <Route path="/users" element={ <AuthGuard adminOnly={true}> <UserList /> </AuthGuard> } />
     <Route path="/users/new" element={ <AuthGuard adminOnly={true}> <UserForm /> </AuthGuard>  } />
     <Route path="/users/:id" element={ <AuthGuard adminOnly={true}> <UserForm /> </AuthGuard> } />
+
+    <Route path="/brute-force" element={ <AuthGuard> <BruteForce /> </AuthGuard> } />
     
   </Routes>
 }
