@@ -7,6 +7,10 @@ import logger from 'morgan'
 
 const app = express()
 
+// Desabilita o cabeçalho X-Powered-By para dificultar a identificação
+// da tecnologia na qual o back-end foi desenvolvido
+app.disable('x-powered-by')
+
 import cors from 'cors'
 
 // Configurando o CORS para que o back-end aceite
@@ -22,6 +26,17 @@ app.use(logger('dev'))
 app.use(json())
 app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
+
+// Rate limiter: limita a quantidade de requisições que cada usuário/IP
+// pode efetuar dentro de um determinado intervalo de tempo
+import { rateLimit } from 'express-rate-limit'
+
+const limiter = rateLimit({
+  windowMs: 60 * 1000,    // Intervalo: 1 minuto
+  limit: 20               // Máximo de 20 requisições
+})
+
+app.use(limiter)
 
 /*********** ROTAS DA API **************/
 
